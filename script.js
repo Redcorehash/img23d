@@ -7,7 +7,13 @@ document.body.appendChild(renderer.domElement);
 
 // Load image as texture
 const textureLoader = new THREE.TextureLoader();
-const texture = textureLoader.load('image.jpg'); // Replace with your image path
+let texture;
+const userImage = localStorage.getItem('userImage');
+if (userImage) {
+    texture = textureLoader.load(userImage);
+} else {
+    texture = textureLoader.load('image.jpg'); // Default image
+}
 
 // Create a 3D object (plane) with the image texture
 const geometry = new THREE.PlaneGeometry(5, 5);
@@ -17,15 +23,6 @@ scene.add(plane);
 
 // Position the camera
 camera.position.z = 5;
-
-// Animation loop
-function animate() {
-    requestAnimationFrame(animate);
-    plane.rotation.x += 0.01;
-    plane.rotation.y += 0.01;
-    renderer.render(scene, camera);
-}
-animate();
 
 // Handle window resize
 window.addEventListener('resize', () => {
